@@ -184,6 +184,12 @@ def main():
                         dest = "list_defined",
                         default = False,
                         help = "list all defined networks")
+    parser.add_option("-b", "--binary-file",
+                        action="store",
+                        type="string",
+                        dest = "binary_file",
+                        default = False,
+                        help = "override the topology definition's binary file")
     parser.add_option("-v", "--verbose",
                         action="store_true",
                         dest = "loglevel",
@@ -265,7 +271,7 @@ def main():
         pids = {}
 
     # parse XML file
-    xmltopo = XMLTopology(xmlfile)
+    xmltopo = XMLTopology(xmlfile, options.binary_file)
     xmltopo.logger = logger
     xmltopo.nodeHandler = nodeHandler
     xmltopo.nicHandler = nicHandler

@@ -4,12 +4,13 @@ import xml.dom.minidom
 import logging
 
 class XMLTopology():
-    def __init__(self, filename):
+    def __init__(self, filename, binary=False):
         self.xmldoc = xml.dom.minidom.parse(filename)
 
         self.nodetypes = {}
         self.linktypes = {}
         self.net = None
+        self.binary = binary
 
     def findNodes(self, xml, node_name):
         result = []
@@ -76,7 +77,9 @@ class XMLTopology():
             n = None
             name = node.getAttribute('name')
             nodeType = node.getAttribute('type')
-            binary = node.getAttribute('binary')
+            binary = self.binary
+            if binary is False:
+                binary = node.getAttribute('binary')
             tcp_port = node.getAttribute('tcp_port')
             logging.getLogger("").debug("Found node %s of type %s" % (name, nodeType))
             default_ifaces = self.nodetypes[nodeType]
